@@ -1,0 +1,1167 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>iPad Check</title>
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,600,700&display=swap" rel="stylesheet">
+<style>
+:root, [data-theme="light"] {
+  --text-xs: 0.8rem; --text-sm: 0.9375rem; --text-base: 1rem; --text-lg: 1.25rem; --text-xl: 1.75rem;
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;
+  --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;--radius-full:9999px;
+  --transition:180ms cubic-bezier(0.16,1,0.3,1);
+  --shadow-sm:0 1px 2px rgba(40,37,29,0.06);--shadow-md:0 4px 12px rgba(40,37,29,0.08);--shadow-lg:0 12px 32px rgba(40,37,29,0.12);
+  --font-body:'Satoshi','Inter',sans-serif;
+  --color-bg:#f7f6f2;--color-surface:#f9f8f5;--color-surface-2:#fbfbf9;
+  --color-surface-offset:#f3f0ec;--color-border:#d4d1ca;--color-divider:#dcd9d5;
+  --color-text:#28251d;--color-text-muted:#7a7974;--color-text-faint:#bab9b4;
+  --color-primary:#01696f;--color-primary-hover:#0c4e54;--color-primary-highlight:#cedcd8;
+  --color-error:#a12c7b;--color-error-highlight:#e0ced7;
+  --color-success:#437a22;--color-success-highlight:#d4dfcc;
+  --color-warning:#964219;--color-warning-highlight:#ddcfc6;
+  --color-notification:#a13544;--color-notification-highlight:#dececb;
+}
+[data-theme="dark"] {
+  --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+  --color-surface-offset:#1d1c1a;--color-border:#393836;--color-divider:#262523;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-hover:#227f8b;--color-primary-highlight:#313b3b;
+  --color-error:#d163a7;--color-error-highlight:#4c3d46;
+  --color-success:#6daa45;--color-success-highlight:#3a4435;
+  --color-warning:#bb653b;--color-warning-highlight:#564942;
+  --color-notification:#dd6974;--color-notification-highlight:#574848;
+  --shadow-sm:0 1px 2px rgba(0,0,0,0.2);--shadow-md:0 4px 12px rgba(0,0,0,0.3);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme]){
+  --color-bg:#171614;--color-surface:#1c1b19;--color-surface-2:#201f1d;
+  --color-surface-offset:#1d1c1a;--color-border:#393836;--color-divider:#262523;
+  --color-text:#cdccca;--color-text-muted:#797876;--color-text-faint:#5a5957;
+  --color-primary:#4f98a3;--color-primary-hover:#227f8b;--color-primary-highlight:#313b3b;
+  --color-error:#d163a7;--color-error-highlight:#4c3d46;
+  --color-success:#6daa45;--color-success-highlight:#3a4435;
+  --color-warning:#bb653b;--color-warning-highlight:#564942;
+  --color-notification:#dd6974;--color-notification-highlight:#574848;
+}}
+*,*::before,*::after{-webkit-box-sizing:border-box;box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-tap-highlight-color:transparent;touch-action:manipulation;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+body{min-height:100vh;min-height:100dvh;font-family:var(--font-body);font-size:var(--text-sm);color:var(--color-text);background:var(--color-bg);line-height:1.6;}
+input,button,select,textarea{font:inherit;color:inherit;}
+button{cursor:pointer;background:none;border:none;}
+a,button,input,select{-webkit-transition:color var(--transition),background var(--transition),border-color var(--transition);transition:color var(--transition),background var(--transition),border-color var(--transition);}
+:focus-visible{outline:2px solid var(--color-primary);outline-offset:3px;border-radius:var(--radius-sm);}
+
+.app{display:block;min-height:100vh;}
+.topbar{
+  background:var(--color-surface);border-bottom:1px solid var(--color-border);
+  padding:var(--space-3) var(--space-4);
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:justify;-webkit-justify-content:space-between;justify-content:space-between;
+  position:-webkit-sticky;position:sticky;top:0;z-index:10;
+  -webkit-box-shadow:var(--shadow-sm);box-shadow:var(--shadow-sm);
+  padding-top:calc(var(--space-3) + env(safe-area-inset-top, 0px));
+}
+.logo{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;gap:var(--space-2);font-weight:700;font-size:var(--text-base);}
+.logo svg{color:var(--color-primary);}
+.topbar-actions{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;gap:var(--space-2);}
+.main{padding:var(--space-6) var(--space-4) calc(var(--space-8) + env(safe-area-inset-bottom,0px));max-width:960px;margin-left:auto;margin-right:auto;width:100%;}
+
+.card{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--radius-xl);padding:var(--space-6);-webkit-box-shadow:var(--shadow-sm);box-shadow:var(--shadow-sm);}
+.card+.card{margin-top:var(--space-4);}
+.card-title{font-size:var(--text-base);font-weight:600;margin-bottom:var(--space-4);display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;gap:var(--space-2);}
+.card-title svg{color:var(--color-primary);-webkit-flex-shrink:0;flex-shrink:0;}
+
+.btn{
+  display:-webkit-inline-box;display:-webkit-inline-flex;display:inline-flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  gap:var(--space-2);padding:var(--space-2) var(--space-5);border-radius:var(--radius-md);
+  font-size:var(--text-sm);font-weight:500;cursor:pointer;
+  -webkit-transition:background var(--transition),opacity var(--transition);transition:background var(--transition),opacity var(--transition);
+  -webkit-tap-highlight-color:rgba(0,0,0,0.08);touch-action:manipulation;
+  min-height:44px;
+}
+.btn-primary{background:var(--color-primary);color:#fff;border:1px solid transparent;}
+.btn-primary:active{background:var(--color-primary-hover);}
+.btn-secondary{background:var(--color-surface-offset);color:var(--color-text);border:1px solid var(--color-border);}
+.btn-secondary:active{background:var(--color-divider);}
+.btn-danger{background:var(--color-notification);color:#fff;border:1px solid transparent;}
+.btn-danger:active{background:#782b33;}
+.btn-sm{padding:var(--space-1) var(--space-3);font-size:var(--text-xs);min-height:36px;}
+.btn-icon{padding:var(--space-2);border-radius:var(--radius-md);color:var(--color-text-muted);-webkit-tap-highlight-color:rgba(0,0,0,0.08);touch-action:manipulation;min-width:44px;min-height:44px;display:-webkit-inline-box;display:-webkit-inline-flex;display:inline-flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;-webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;}
+.btn-icon:active{background:var(--color-surface-offset);color:var(--color-text);}
+.btn:active{opacity:0.8;}
+
+.input-group{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;gap:var(--space-1);}
+.input-group label{font-size:var(--text-xs);font-weight:500;color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em;}
+input[type="text"],input[type="number"]{
+  background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-md);
+  padding:var(--space-2) var(--space-3);font-size:var(--text-sm);width:100%;
+  -webkit-appearance:none;appearance:none;min-height:44px;
+}
+input[type="text"]:focus,input[type="number"]:focus{outline:2px solid var(--color-primary);outline-offset:0;border-color:var(--color-primary);}
+.input-row{display:-webkit-box;display:-webkit-flex;display:flex;gap:var(--space-3);-webkit-box-align:end;-webkit-align-items:flex-end;align-items:flex-end;flex-wrap:wrap;}
+.input-row .input-group{-webkit-box-flex:1;-webkit-flex:1;flex:1;min-width:120px;}
+
+.setup-grid{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;
+  gap:var(--space-2);margin-top:var(--space-3);
+}
+.ipad-setup-item{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  gap:var(--space-1);padding:var(--space-3) var(--space-2);
+  -webkit-box-flex:0;-webkit-flex:0 0 calc(25% - var(--space-2));flex:0 0 calc(25% - var(--space-2));
+  min-width:72px;max-width:140px;
+  background:var(--color-surface-2);border:1px solid var(--color-border);
+  border-radius:var(--radius-lg);cursor:pointer;
+  -webkit-user-select:none;user-select:none;
+  -webkit-transition:all var(--transition);transition:all var(--transition);
+  touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0.08);
+  min-height:44px;
+}
+.ipad-setup-item:active{border-color:var(--color-primary);}
+.ipad-setup-item.remove{border-color:var(--color-notification);background:var(--color-notification-highlight);}
+.ipad-setup-item .num{font-weight:700;font-size:var(--text-base);}
+.ipad-setup-item .lbl{font-size:var(--text-xs);color:var(--color-text-muted);}
+
+.check-grid{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;gap:var(--space-3);margin-top:var(--space-3);}
+
+.shelf-section{width:100%;display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;}
+.shelf-header{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  gap:var(--space-2);
+  padding:var(--space-2) var(--space-3);
+  background:var(--color-surface-offset);
+  border:1px solid var(--color-border);
+  border-radius:var(--radius-md);
+  margin-bottom:var(--space-2);
+  font-size:var(--text-xs);font-weight:600;color:var(--color-text-muted);
+  text-transform:uppercase;letter-spacing:0.05em;
+}
+/* iPad tile grid — use CSS grid for reliable wrapping on all iOS sizes */
+.shelf-tiles{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(72px,1fr));
+  gap:var(--space-2);
+}
+
+.ipad-tile{
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  gap:var(--space-1);
+  padding:var(--space-3) var(--space-2);
+  min-height:80px;
+  border-radius:var(--radius-lg);cursor:pointer;
+  -webkit-user-select:none;user-select:none;
+  border:2px solid transparent;
+  -webkit-transition:all 120ms ease;transition:all 120ms ease;
+  position:relative;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:rgba(0,0,0,0.08);
+  -webkit-touch-callout:none;
+}
+.ipad-tile.on-shelf{background:var(--color-success-highlight);border-color:var(--color-success);color:var(--color-success);}
+.ipad-tile.taken-out{background:var(--color-warning-highlight);border-color:var(--color-warning);color:var(--color-warning);}
+.ipad-tile.missing{background:var(--color-notification-highlight);border-color:var(--color-notification);color:var(--color-notification);-webkit-animation:pulse-missing 1.5s ease-in-out infinite;animation:pulse-missing 1.5s ease-in-out infinite;}
+.ipad-tile.unchecked{background:var(--color-surface-2);border-color:var(--color-border);color:var(--color-text-muted);}
+.ipad-tile:active{opacity:0.75;-webkit-transform:scale(0.96);transform:scale(0.96);}
+.ipad-tile .tile-num{font-weight:700;font-size:var(--text-base);}
+.ipad-tile .tile-lbl{font-size:var(--text-xs);font-weight:500;}
+.ipad-tile .tile-icon{font-size:1.1rem;}
+
+@-webkit-keyframes pulse-missing{0%,100%{-webkit-box-shadow:0 0 0 0 rgba(161,53,68,0.4);box-shadow:0 0 0 0 rgba(161,53,68,0.4);}50%{-webkit-box-shadow:0 0 0 6px rgba(161,53,68,0);box-shadow:0 0 0 6px rgba(161,53,68,0);}}
+@keyframes pulse-missing{0%,100%{box-shadow:0 0 0 0 rgba(161,53,68,0.4);}50%{box-shadow:0 0 0 6px rgba(161,53,68,0);}}
+[data-theme="dark"] .ipad-tile.missing{-webkit-animation-name:pulse-missing-dark;animation-name:pulse-missing-dark;}
+@media (prefers-color-scheme:dark){.ipad-tile.missing{-webkit-animation-name:pulse-missing-dark;animation-name:pulse-missing-dark;}}
+@-webkit-keyframes pulse-missing-dark{0%,100%{-webkit-box-shadow:0 0 0 0 rgba(221,105,116,0.4);box-shadow:0 0 0 0 rgba(221,105,116,0.4);}50%{-webkit-box-shadow:0 0 0 6px rgba(221,105,116,0);box-shadow:0 0 0 6px rgba(221,105,116,0);}}
+@keyframes pulse-missing-dark{0%,100%{box-shadow:0 0 0 0 rgba(221,105,116,0.4);}50%{box-shadow:0 0 0 6px rgba(221,105,116,0);}}
+
+.legend{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-4);}
+.legend-item{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;gap:var(--space-2);font-size:var(--text-xs);color:var(--color-text-muted);}
+.legend-dot{width:10px;height:10px;border-radius:var(--radius-full);-webkit-flex-shrink:0;flex-shrink:0;}
+.dot-shelf{background:var(--color-success);}.dot-taken{background:var(--color-warning);}.dot-missing{background:var(--color-notification);}.dot-unchecked{background:var(--color-border);}
+
+.summary-grid{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:var(--space-3);}
+.stat-card{background:var(--color-surface-2);border:1px solid var(--color-border);border-radius:var(--radius-lg);padding:var(--space-4);text-align:center;-webkit-box-flex:1;-webkit-flex:1 1 100px;flex:1 1 100px;min-width:80px;}
+.stat-card .stat-num{font-size:var(--text-xl);font-weight:700;line-height:1;margin-bottom:var(--space-1);}
+.stat-card .stat-lbl{font-size:var(--text-xs);color:var(--color-text-muted);text-transform:uppercase;letter-spacing:0.05em;}
+.stat-card.stat-missing .stat-num{color:var(--color-notification);}
+.stat-card.stat-shelf .stat-num{color:var(--color-success);}
+.stat-card.stat-taken .stat-num{color:var(--color-warning);}
+.stat-card.stat-total .stat-num{color:var(--color-primary);}
+
+.tile-team{font-size:9px;font-weight:600;padding:1px 5px;border-radius:var(--radius-full);max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.tile-assign-btn{
+  position:absolute;top:2px;right:2px;font-size:13px;line-height:1;padding:5px;
+  min-width:28px;min-height:28px;
+  display:-webkit-box;display:-webkit-flex;display:flex;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  background:var(--color-surface);border-radius:var(--radius-sm);
+  border:1px solid var(--color-border);cursor:pointer;
+  touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0.08);
+}
+.tile-assign-btn:active{background:var(--color-surface-offset);}
+
+#team-picker-overlay{
+  display:none;position:fixed;top:0;right:0;bottom:0;left:0;
+  background:rgba(0,0,0,0.4);z-index:200;
+  -webkit-box-align:end;-webkit-align-items:flex-end;align-items:flex-end;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+}
+#team-picker-overlay.show{display:-webkit-box;display:-webkit-flex;display:flex;}
+#team-picker{
+  background:var(--color-surface);border-radius:var(--radius-xl) var(--radius-xl) 0 0;
+  padding:var(--space-5) var(--space-5) calc(var(--space-5) + env(safe-area-inset-bottom,0px));
+  width:100%;max-width:480px;max-height:80vh;overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  -webkit-box-shadow:var(--shadow-lg);box-shadow:var(--shadow-lg);
+}
+
+.modal-overlay{
+  display:none;position:fixed;top:0;right:0;bottom:0;left:0;
+  background:rgba(0,0,0,0.5);z-index:100;
+  -webkit-box-align:center;-webkit-align-items:center;align-items:center;
+  -webkit-box-pack:center;-webkit-justify-content:center;justify-content:center;
+  padding:var(--space-4);
+  /* iOS safe area padding */
+  padding-bottom:calc(var(--space-4) + env(safe-area-inset-bottom,0px));
+}
+.modal-overlay.show{display:-webkit-box;display:-webkit-flex;display:flex;}
+.modal-box{
+  background:var(--color-surface);border:1px solid var(--color-border);
+  border-radius:var(--radius-xl);padding:var(--space-6);
+  width:100%;-webkit-box-shadow:var(--shadow-lg);box-shadow:var(--shadow-lg);
+  max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+
+.alert{display:none;padding:var(--space-3) var(--space-4);border-radius:var(--radius-lg);margin-bottom:var(--space-4);font-size:var(--text-sm);font-weight:500;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:var(--space-2);-webkit-box-align:start;-webkit-align-items:flex-start;align-items:flex-start;}
+.alert.show{display:-webkit-box;display:-webkit-flex;display:flex;}
+.alert-miss{background:var(--color-notification-highlight);color:var(--color-notification);}
+.alert-ok{background:var(--color-success-highlight);color:var(--color-success);}
+.alert-miss-text{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;gap:var(--space-2);}
+.missing-badges{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:var(--space-1);margin-top:var(--space-1);}
+.missing-badge{background:var(--color-notification);color:#fff;border-radius:var(--radius-full);padding:2px 8px;font-size:var(--text-xs);font-weight:600;}
+
+.divider{border:none;border-top:1px solid var(--color-divider);margin:var(--space-4) 0;}
+
+.tab-nav{display:-webkit-box;display:-webkit-flex;display:flex;gap:var(--space-2);margin-bottom:var(--space-4);-webkit-flex-wrap:wrap;flex-wrap:wrap;}
+.tab-btn{
+  padding:var(--space-2) var(--space-4);border-radius:var(--radius-md);font-size:var(--text-sm);font-weight:500;
+  color:var(--color-text-muted);background:transparent;border:1px solid var(--color-border);
+  cursor:pointer;-webkit-transition:all var(--transition);transition:all var(--transition);
+  touch-action:manipulation;-webkit-tap-highlight-color:rgba(0,0,0,0.08);min-height:44px;
+}
+.tab-btn.active{background:var(--color-primary);color:#fff;border-color:var(--color-primary);}
+.tab-btn:active:not(.active){background:var(--color-surface-offset);}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+
+.team-list-item{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;gap:var(--space-3);padding:var(--space-3) 0;border-bottom:1px solid var(--color-divider);}
+.team-list-item:last-child{border-bottom:none;}
+.team-color-dot{width:12px;height:12px;border-radius:var(--radius-full);-webkit-flex-shrink:0;flex-shrink:0;}
+.team-name{-webkit-box-flex:1;-webkit-flex:1;flex:1;font-weight:500;}
+
+.picker-team-btn{
+  display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:center;-webkit-align-items:center;align-items:center;gap:var(--space-3);
+  width:100%;padding:var(--space-3) var(--space-3);border-radius:var(--radius-md);
+  font-size:var(--text-sm);font-weight:500;cursor:pointer;border:none;
+  background:var(--color-surface-2);margin-bottom:var(--space-2);
+  touch-action:manipulation;min-height:44px;
+  -webkit-transition:background var(--transition);transition:background var(--transition);
+}
+.picker-team-btn:active{background:var(--color-surface-offset);}
+
+.history-entry{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-align:start;-webkit-align-items:flex-start;align-items:flex-start;gap:var(--space-3);padding:var(--space-4) 0;border-bottom:1px solid var(--color-divider);}
+.history-entry:last-child{border-bottom:none;}
+.history-meta{font-size:var(--text-xs);color:var(--color-text-muted);margin-top:var(--space-1);}
+.history-badges{margin-top:var(--space-2);}
+.hbadge{display:inline-block;padding:2px 10px;border-radius:var(--radius-full);font-size:var(--text-xs);font-weight:600;}
+.hbadge-miss{background:var(--color-notification-highlight);color:var(--color-notification);}
+.hbadge-ok{background:var(--color-success-highlight);color:var(--color-success);}
+
+.empty-state{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-box-orient:vertical;-webkit-flex-direction:column;flex-direction:column;-webkit-box-align:center;-webkit-align-items:center;align-items:center;text-align:center;padding:var(--space-12) var(--space-8);color:var(--color-text-muted);}
+.empty-state svg{margin-bottom:var(--space-4);color:var(--color-text-faint);}
+.empty-state p{font-size:var(--text-sm);}
+
+.color-swatches{display:-webkit-box;display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:var(--space-2);margin-bottom:var(--space-3);}
+.color-swatch{width:28px;height:28px;border-radius:var(--radius-full);cursor:pointer;border:2px solid transparent;-webkit-transition:all var(--transition);transition:all var(--transition);touch-action:manipulation;min-width:36px;min-height:36px;}
+.color-swatch.selected{border-color:var(--color-text);-webkit-transform:scale(1.15);transform:scale(1.15);}
+
+/* Responsive adjustments */
+@media (max-width:380px){
+  .shelf-tiles{grid-template-columns:repeat(auto-fill,minmax(64px,1fr));}
+  .ipad-tile{padding:var(--space-2) var(--space-1);min-height:72px;}
+  .ipad-tile .tile-num{font-size:0.875rem;}
+  .card{padding:var(--space-4);}
+}
+@media (min-width:640px){
+  .shelf-tiles{grid-template-columns:repeat(auto-fill,minmax(80px,1fr));}
+  .main{padding:var(--space-8) var(--space-6);}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar">
+    <div class="logo">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg>
+      iPad Check
+    </div>
+    <div class="topbar-actions">
+      <button type="button" class="btn btn-sm btn-secondary" id="btn-export" aria-label="Export CSV">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Export
+      </button>
+      <button type="button" class="btn-icon" data-theme-toggle aria-label="Toggle dark mode">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="main">
+    <nav class="tab-nav">
+      <button type="button" class="tab-btn active" id="btn-tab-check">✓ Check</button>
+      <button type="button" class="tab-btn" id="btn-tab-setup">⚙ Setup</button>
+      <button type="button" class="tab-btn" id="btn-tab-history">📋 History</button>
+    </nav>
+
+    <!-- CHECK TAB -->
+    <div id="tab-check" class="tab-panel active">
+      <div class="card">
+        <p style="font-size:var(--text-xs);color:var(--color-text-muted);margin-bottom:var(--space-3);">Tap each iPad to set its status</p>
+        <div class="legend">
+          <div class="legend-item"><div class="legend-dot dot-unchecked"></div> Not yet checked</div>
+          <div class="legend-item"><div class="legend-dot dot-shelf"></div> On shelf</div>
+          <div class="legend-item"><div class="legend-dot dot-taken"></div> Taken out</div>
+          <div class="legend-item"><div class="legend-dot dot-missing"></div> Missing / unknown</div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:var(--space-4);">
+        <div id="alert-missing" class="alert alert-miss">
+          <span>⚠</span>
+          <div>
+            <span id="alert-missing-text"></span>
+            <div class="missing-badges" id="alert-missing-badges"></div>
+          </div>
+        </div>
+        <div id="alert-ok" class="alert alert-ok">
+          <span>✓</span> <strong>All iPads accounted for!</strong> No missing devices.
+        </div>
+
+        <div class="summary-grid" style="margin-bottom:var(--space-4);">
+          <div class="stat-card stat-total"><div class="stat-num" id="stat-total">0</div><div class="stat-lbl">Total</div></div>
+          <div class="stat-card stat-shelf"><div class="stat-num" id="stat-shelf">0</div><div class="stat-lbl">On Shelf</div></div>
+          <div class="stat-card stat-taken"><div class="stat-num" id="stat-taken">0</div><div class="stat-lbl">Taken Out</div></div>
+          <div class="stat-card stat-missing"><div class="stat-num" id="stat-missing">0</div><div class="stat-lbl">Missing</div></div>
+        </div>
+
+        <hr class="divider">
+        <div style="display:flex;gap:var(--space-3);flex-wrap:wrap;">
+          <button type="button" class="btn btn-primary" id="btn-save-check">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            Save Check
+          </button>
+          <button type="button" class="btn btn-secondary" id="btn-reset-check">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+            Reset
+          </button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:var(--space-4);">
+        <div id="check-grid" class="check-grid"></div>
+      </div>
+    </div>
+
+    <!-- SETUP TAB -->
+    <div id="tab-setup" class="tab-panel">
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Configure iPads
+        </div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4);">Set the total number of iPads, or add custom labels for each device.</p>
+        <div class="input-row" style="margin-bottom:var(--space-4);">
+          <div class="input-group">
+            <label for="quick-count">Number of iPads</label>
+            <input type="number" id="quick-count" min="1" max="200" placeholder="e.g. 20" inputmode="numeric">
+          </div>
+          <div class="input-group">
+            <label for="shelf-count">Number of Shelves</label>
+            <input type="number" id="shelf-count" min="1" max="20" placeholder="e.g. 5" value="5" inputmode="numeric">
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-quick-apply">Apply</button>
+        </div>
+        <hr class="divider">
+        <div class="card-title" style="font-size:var(--text-sm);">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Add individual iPad
+        </div>
+        <div class="input-row" style="margin-bottom:var(--space-4);">
+          <div class="input-group">
+            <label for="ipad-label">Label</label>
+            <input type="text" id="ipad-label" placeholder="e.g. iPad 21 or Lab iPad A">
+          </div>
+          <div class="input-group" style="max-width:100px;">
+            <label for="ipad-shelf">Shelf #</label>
+            <input type="number" id="ipad-shelf" min="1" max="20" placeholder="1" inputmode="numeric">
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-add-ipad">Add</button>
+        </div>
+        <div id="setup-grid" class="setup-grid"></div>
+        <div style="margin-top:var(--space-4);">
+          <button type="button" class="btn btn-danger btn-sm" id="btn-clear-all">🗑 Clear All iPads</button>
+        </div>
+      </div>
+
+      <!-- Teams -->
+      <div class="card" style="margin-top:var(--space-4);">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Teams
+        </div>
+        <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-4);">Add teams that can take iPads. During a check, tap "👥" on a taken-out iPad to assign it to a team.</p>
+        <div class="input-row" style="margin-bottom:var(--space-3);">
+          <div class="input-group">
+            <label for="team-name-input">Team Name</label>
+            <input type="text" id="team-name-input" placeholder="e.g. Team Alpha">
+          </div>
+          <button type="button" class="btn btn-primary" id="btn-add-team">Add Team</button>
+        </div>
+        <div class="color-swatches" id="team-color-swatches"></div>
+        <div id="team-list"></div>
+      </div>
+    </div>
+
+    <!-- HISTORY TAB -->
+    <div id="tab-history" class="tab-panel">
+      <div class="card">
+        <div class="card-title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Check History
+        </div>
+        <div id="history-list"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<!-- Team Picker Bottom Sheet -->
+<div id="team-picker-overlay">
+  <div id="team-picker">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+      <strong style="font-size:var(--text-base);">👥 Assign Team</strong>
+      <button type="button" class="btn-icon" data-picker-close aria-label="Close">✕</button>
+    </div>
+    <div id="team-picker-list"></div>
+    <button type="button" class="picker-team-btn" data-picker-team="">
+      <span style="width:12px;height:12px;border-radius:50%;background:var(--color-border);flex-shrink:0;"></span>
+      No Team / Unassign
+    </button>
+  </div>
+</div>
+
+<!-- Message Modal -->
+<div id="msg-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Verification Message">
+  <div class="modal-box" style="max-width:520px;" id="msg-modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-3);">
+      <strong style="font-size:var(--text-base);">📤 Verification Message</strong>
+      <button type="button" class="btn-icon" id="close-msg-btn" aria-label="Close">✕</button>
+    </div>
+    <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-3);">Copy and send this message to your team or paste into WhatsApp / Telegram.</p>
+    <textarea id="msg-content" readonly style="width:100%;height:260px;font-family:monospace;font-size:var(--text-xs);background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);resize:vertical;color:var(--color-text);line-height:1.7;-webkit-appearance:none;appearance:none;"></textarea>
+    <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);flex-wrap:wrap;">
+      <button type="button" id="copy-msg-btn" class="btn btn-primary">📋 Copy Message</button>
+      <button type="button" id="done-msg-btn" class="btn btn-secondary">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- Export Modal -->
+<div id="export-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="Export CSV">
+  <div class="modal-box" style="max-width:600px;" id="export-modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:var(--space-4);">
+      <strong style="font-size:var(--text-base);">📋 Export CSV Data</strong>
+      <button type="button" class="btn-icon" id="close-export-btn" aria-label="Close">✕</button>
+    </div>
+    <p style="font-size:var(--text-sm);color:var(--color-text-muted);margin-bottom:var(--space-3);">Copy this data and paste it into Excel, Google Sheets, or a .csv file.</p>
+    <textarea id="export-content" readonly style="width:100%;height:200px;font-family:monospace;font-size:var(--text-xs);background:var(--color-surface-offset);border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3);resize:vertical;color:var(--color-text);-webkit-appearance:none;appearance:none;"></textarea>
+    <div style="display:flex;gap:var(--space-3);margin-top:var(--space-4);">
+      <button type="button" id="copy-export-btn" class="btn btn-primary">Copy All</button>
+      <button type="button" id="close-export-btn2" class="btn btn-secondary">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ─── State ────────────────────────────────────────────────
+// NOTE: Using 'checkHistory' to avoid shadowing window.history
+var ipads = [];
+var checkState = {};
+var checkHistory = [];
+var teams = [
+  { id: 't1', name: 'Team Alpha',   color: '#01696f' },
+  { id: 't2', name: 'Team Bravo',   color: '#964219' },
+  { id: 't3', name: 'Team Charlie', color: '#006494' },
+  { id: 't4', name: 'Team Delta',   color: '#7a39bb' },
+  { id: 't5', name: 'Team Echo',    color: '#a13544' }
+];
+var selectedTeamColor = '#01696f';
+
+var STATUS_CYCLE  = ['unchecked','on-shelf','taken-out','missing'];
+var STATUS_LABELS = { 'unchecked':'—','on-shelf':'✓ Shelf','taken-out':'↑ Out','missing':'! Miss' };
+var STATUS_ICONS  = { 'unchecked':'○','on-shelf':'✓','taken-out':'↑','missing':'!' };
+var STATUS_CSS    = { 'unchecked':'unchecked','on-shelf':'on-shelf','taken-out':'taken-out','missing':'missing' };
+
+var TEAM_COLORS = ['#01696f','#964219','#006494','#7a39bb','#a13544','#437a22','#d19900','#a12c7b'];
+
+function padNum(n) { return n < 10 ? '0' + n : '' + n; }
+
+// ─── Render ───────────────────────────────────────────────
+function renderSetup() {
+  var el = document.getElementById('setup-grid');
+  if (!ipads.length) {
+    el.innerHTML = '<p style="color:var(--color-text-muted);font-size:var(--text-sm);">No iPads configured yet.</p>';
+    return;
+  }
+  var html = '';
+  for (var i = 0; i < ipads.length; i++) {
+    var p = ipads[i];
+    html += '<div class="ipad-setup-item remove" data-remove-id="' + p.id + '" role="button" tabindex="0" aria-label="Remove ' + p.label + '">' +
+      '<span class="num">' + padNum(i + 1) + '</span>' +
+      '<span class="lbl">' + escHtml(p.label) + '</span>' +
+      '<span style="font-size:10px;color:var(--color-notification);">✕ tap to remove</span>' +
+    '</div>';
+  }
+  el.innerHTML = html;
+}
+
+function renderTeams() {
+  // Color swatches
+  var sw = document.getElementById('team-color-swatches');
+  var swHtml = '';
+  for (var ci = 0; ci < TEAM_COLORS.length; ci++) {
+    swHtml += '<div class="color-swatch' + (TEAM_COLORS[ci] === selectedTeamColor ? ' selected' : '') + '" data-swatch="' + TEAM_COLORS[ci] + '" style="background:' + TEAM_COLORS[ci] + ';" role="button" tabindex="0" aria-label="Color ' + TEAM_COLORS[ci] + '"></div>';
+  }
+  sw.innerHTML = swHtml;
+
+  var el = document.getElementById('team-list');
+  if (!teams.length) { el.innerHTML = '<p style="color:var(--color-text-muted);font-size:var(--text-sm);">No teams added yet.</p>'; return; }
+  var html = '';
+  for (var i = 0; i < teams.length; i++) {
+    html += '<div class="team-list-item">' +
+      '<div class="team-color-dot" style="background:' + teams[i].color + ';"></div>' +
+      '<span class="team-name">' + escHtml(teams[i].name) + '</span>' +
+      '<button type="button" class="btn btn-sm btn-secondary" data-remove-team="' + teams[i].id + '">Remove</button>' +
+    '</div>';
+  }
+  el.innerHTML = html;
+}
+
+function renderCheckGrid() {
+  var el = document.getElementById('check-grid');
+  if (!ipads.length) {
+    el.innerHTML = '<div class="empty-state"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1" fill="currentColor"/></svg><p>No iPads configured.<br>Go to <strong>Setup</strong> to add devices.</p></div>';
+    return;
+  }
+  var shelves = {};
+  for (var i = 0; i < ipads.length; i++) {
+    var shelfNum = ipads[i].shelf || 1;
+    if (!shelves[shelfNum]) shelves[shelfNum] = [];
+    shelves[shelfNum].push(ipads[i]);
+  }
+  var shelfKeys = Object.keys(shelves).sort(function(a,b){ return parseInt(a)-parseInt(b); });
+  var html = '';
+  for (var si = 0; si < shelfKeys.length; si++) {
+    var sk = shelfKeys[si];
+    var shelfIpads = shelves[sk];
+    html += '<div class="shelf-section">' +
+      '<div class="shelf-header">📦 Shelf ' + sk + ' <span style="margin-left:auto;font-weight:400;">' + shelfIpads.length + ' device' + (shelfIpads.length !== 1 ? 's' : '') + '</span></div>' +
+      '<div class="shelf-tiles">';
+    for (var ti = 0; ti < shelfIpads.length; ti++) {
+      var p = shelfIpads[ti];
+      var cs = checkState[p.id] || { status: 'unchecked', team: null };
+      var statusClass = STATUS_CSS[cs.status] || 'unchecked';
+      var teamObj = null;
+      if (cs.team) { for (var x = 0; x < teams.length; x++) { if (teams[x].id === cs.team) { teamObj = teams[x]; break; } } }
+      var numLabel = p.label.match(/(\d+)$/) ? p.label.match(/(\d+)$/)[1] : p.label;
+      html += '<div class="ipad-tile ' + statusClass + '" data-tile-id="' + p.id + '" role="button" tabindex="0" aria-label="' + escHtml(p.label) + ', ' + (STATUS_LABELS[cs.status]||'') + '">' +
+        '<span class="tile-icon">' + STATUS_ICONS[cs.status] + '</span>' +
+        '<span class="tile-num">' + escHtml(numLabel) + '</span>' +
+        '<span class="tile-lbl">' + STATUS_LABELS[cs.status] + '</span>';
+      if (cs.status === 'taken-out') {
+        if (teamObj) {
+          html += '<span class="tile-team" style="background:' + teamObj.color + ';color:#fff;">' + escHtml(teamObj.name) + '</span>';
+        }
+        if (teams.length > 0) {
+          html += '<button type="button" class="tile-assign-btn" data-assign-id="' + p.id + '" aria-label="Assign team to ' + escHtml(p.label) + '">👥</button>';
+        }
+      }
+      html += '</div>';
+    }
+    html += '</div></div>';
+  }
+  el.innerHTML = html;
+}
+
+function escHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function cycleStatus(id) {
+  var cs = checkState[id] || { status: 'unchecked', team: null };
+  var idx = STATUS_CYCLE.indexOf(cs.status);
+  var next = STATUS_CYCLE[(idx + 1) % STATUS_CYCLE.length];
+  checkState[id] = { status: next, team: (next === 'taken-out' ? cs.team : null) };
+  renderCheckGrid(); updateSummary(); saveState();
+}
+
+var _teamPickerCurrentId = null;
+function openTeamPicker(id, event) {
+  if (event) { event.stopPropagation(); }
+  _teamPickerCurrentId = id;
+  var el = document.getElementById('team-picker-list');
+  var html = '';
+  for (var i = 0; i < teams.length; i++) {
+    html += '<button type="button" class="picker-team-btn" data-picker-team="' + teams[i].id + '">' +
+      '<span style="width:12px;height:12px;border-radius:50%;background:' + teams[i].color + ';flex-shrink:0;"></span>' +
+      escHtml(teams[i].name) + '</button>';
+  }
+  el.innerHTML = html;
+  document.getElementById('team-picker-overlay').classList.add('show');
+}
+
+function closeTeamPicker() {
+  document.getElementById('team-picker-overlay').classList.remove('show');
+  _teamPickerCurrentId = null;
+}
+
+function assignTeam(ipadId, teamId) {
+  if (!checkState[ipadId]) checkState[ipadId] = { status: 'taken-out', team: null };
+  checkState[ipadId].team = teamId || null;
+  closeTeamPicker();
+  renderCheckGrid(); updateSummary(); saveState();
+}
+
+function addIpad() {
+  var labelEl = document.getElementById('ipad-label');
+  var shelfEl = document.getElementById('ipad-shelf');
+  var label = labelEl.value.trim();
+  if (!label) { labelEl.focus(); return; }
+  var shelf = parseInt(shelfEl.value) || 1;
+  var id = 'ipad-' + Date.now() + '-' + Math.random().toString(36).slice(2,6);
+  ipads.push({ id: id, label: label, shelf: shelf });
+  labelEl.value = '';
+  renderSetup(); renderCheckGrid(); updateSummary(); saveState();
+}
+
+function removeIpad(id) {
+  ipads = ipads.filter(function(p){ return p.id !== id; });
+  delete checkState[id];
+  renderSetup(); renderCheckGrid(); updateSummary(); saveState();
+}
+
+function quickSetup() {
+  var countEl = document.getElementById('quick-count');
+  var shelfCountEl = document.getElementById('shelf-count');
+  var count = parseInt(countEl.value);
+  var shelfCount = parseInt(shelfCountEl.value) || 5;
+  if (!count || count < 1) { countEl.focus(); return; }
+  if (!confirm('Replace all ' + ipads.length + ' iPad(s) with ' + count + ' new ones?')) return;
+  ipads = [];
+  checkState = {};
+  var perShelf = Math.ceil(count / shelfCount);
+  for (var i = 1; i <= count; i++) {
+    var shelfNum = Math.ceil(i / perShelf);
+    ipads.push({ id: 'ipad-' + i, label: 'iPad ' + padNum(i), shelf: shelfNum });
+  }
+  renderSetup(); renderCheckGrid(); updateSummary(); saveState();
+}
+
+function clearAll() {
+  if (!confirm('Clear all iPads? This cannot be undone.')) return;
+  ipads = []; checkState = {};
+  renderSetup(); renderCheckGrid(); updateSummary(); saveState();
+}
+
+function addTeam() {
+  var nameEl = document.getElementById('team-name-input');
+  var name = nameEl.value.trim();
+  if (!name) { nameEl.focus(); return; }
+  var id = 'team-' + Date.now();
+  teams.push({ id: id, name: name, color: selectedTeamColor });
+  nameEl.value = '';
+  renderTeams(); saveState();
+}
+
+function removeTeam(id) {
+  teams = teams.filter(function(t){ return t.id !== id; });
+  // Remove team assignments
+  for (var k in checkState) { if (checkState[k].team === id) checkState[k].team = null; }
+  renderTeams(); renderCheckGrid(); saveState();
+}
+
+function updateSummary() {
+  var total = ipads.length, shelf = 0, taken = 0, missing = 0;
+  for (var i = 0; i < ipads.length; i++) {
+    var cs = checkState[ipads[i].id];
+    if (cs) {
+      if (cs.status === 'on-shelf') shelf++;
+      else if (cs.status === 'taken-out') taken++;
+      else if (cs.status === 'missing') missing++;
+    }
+  }
+  document.getElementById('stat-total').textContent   = total;
+  document.getElementById('stat-shelf').textContent   = shelf;
+  document.getElementById('stat-taken').textContent   = taken;
+  document.getElementById('stat-missing').textContent = missing;
+
+  var checkedCount = 0;
+  for (var j = 0; j < ipads.length; j++) {
+    var cs2 = checkState[ipads[j].id];
+    if (cs2 && cs2.status && cs2.status !== 'unchecked') checkedCount++;
+  }
+  var allChecked = (checkedCount === total && total > 0);
+  var alertMiss = document.getElementById('alert-missing');
+  var alertOk   = document.getElementById('alert-ok');
+
+  if (missing > 0) {
+    alertMiss.classList.add('show'); alertOk.classList.remove('show');
+    var missingIpads = [];
+    for (var m = 0; m < ipads.length; m++) {
+      var cs3 = checkState[ipads[m].id];
+      if (cs3 && cs3.status === 'missing') missingIpads.push(ipads[m]);
+    }
+    document.getElementById('alert-missing-text').textContent = ' ' + missing + ' device' + (missing > 1 ? 's' : '') + ' unaccounted for:';
+    var badges = '';
+    for (var mi = 0; mi < missingIpads.length; mi++) {
+      badges += '<span class="missing-badge">' + escHtml(missingIpads[mi].label) + '</span>';
+    }
+    document.getElementById('alert-missing-badges').innerHTML = badges;
+  } else if (allChecked) {
+    alertMiss.classList.remove('show'); alertOk.classList.add('show');
+  } else {
+    alertMiss.classList.remove('show'); alertOk.classList.remove('show');
+  }
+}
+
+function resetCheck() {
+  if (!confirm('Clear all current check statuses?')) return;
+  checkState = {};
+  renderCheckGrid(); updateSummary(); saveState();
+}
+
+function submitCheck() {
+  if (!ipads.length) { alert('Add iPads first in the Setup tab.'); return; }
+  var unchecked = [];
+  for (var i = 0; i < ipads.length; i++) {
+    var cs = checkState[ipads[i].id];
+    if (!cs || cs.status === 'unchecked') unchecked.push(ipads[i]);
+  }
+  if (unchecked.length && !confirm(unchecked.length + ' iPad(s) not yet checked. Save anyway?')) return;
+
+  var snapshot = [];
+  for (var si = 0; si < ipads.length; si++) {
+    var p = ipads[si];
+    var cs2 = checkState[p.id] || {};
+    snapshot.push({ id: p.id, label: p.label, shelf: p.shelf || 1, status: cs2.status || 'unchecked', team: cs2.team || null });
+  }
+  var entry = { ts: new Date(), snapshot: snapshot };
+  checkHistory.unshift(entry);
+  renderHistory(); showMessage(entry); saveState();
+
+  // Brief save confirmation on the button
+  var btn = document.getElementById('btn-save-check');
+  var origHTML = btn.innerHTML;
+  btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Saved!';
+  btn.disabled = true;
+  setTimeout(function() { btn.innerHTML = origHTML; btn.disabled = false; }, 2500);
+}
+
+function getNumLabel(label) {
+  var m = label.match(/(\d+)$/);
+  return m ? parseInt(m[1], 10).toString() : label;
+}
+
+function showMessage(entry) {
+  var shelfIpads = [], missingIpads = [], takenByTeam = {}, takenNoTeam = [];
+  for (var i = 0; i < entry.snapshot.length; i++) {
+    var p = entry.snapshot[i];
+    if (p.status === 'on-shelf') shelfIpads.push(getNumLabel(p.label));
+    if (p.status === 'missing') missingIpads.push(getNumLabel(p.label));
+    if (p.status === 'taken-out') {
+      if (p.team) {
+        if (!takenByTeam[p.team]) takenByTeam[p.team] = [];
+        takenByTeam[p.team].push(getNumLabel(p.label));
+      } else { takenNoTeam.push(getNumLabel(p.label)); }
+    }
+  }
+  var msg = 'iPad Verification\n\n';
+  msg += 'Verified iPad(s) at shelf:\n';
+  msg += (shelfIpads.length ? shelfIpads.join(' , ') : 'None') + '\n\n';
+  var tkeys = Object.keys(takenByTeam);
+  for (var ti = 0; ti < tkeys.length; ti++) {
+    var team = null;
+    for (var tmi = 0; tmi < teams.length; tmi++) { if (teams[tmi].id === tkeys[ti]) { team = teams[tmi]; break; } }
+    msg += (team ? team.name : 'Unknown Team') + ' taken iPad(s):\n';
+    msg += takenByTeam[tkeys[ti]].join(' , ') + '\n\n';
+  }
+  if (takenNoTeam.length) {
+    msg += '[Unassigned Team] taken iPad(s):\n';
+    msg += takenNoTeam.join(' , ') + '\n\n';
+  }
+  if (missingIpads.length) {
+    msg += '\u26a0 MISSING iPad(s):\n';
+    msg += missingIpads.join(' , ') + '\n\n';
+  }
+  var takenTotal = 0;
+  for (var si2 = 0; si2 < entry.snapshot.length; si2++) { if (entry.snapshot[si2].status === 'taken-out') takenTotal++; }
+  msg += 'Total: ' + entry.snapshot.length + ' | Shelf: ' + shelfIpads.length + ' | Out: ' + takenTotal + ' | Missing: ' + missingIpads.length;
+  document.getElementById('msg-content').value = msg;
+  document.getElementById('msg-modal').classList.add('show');
+}
+
+function closeMsg() { document.getElementById('msg-modal').classList.remove('show'); }
+
+// ─── iOS-safe copy helper ─────────────────────────────────
+function iosClipboardCopy(text, btn, successLabel, defaultLabel) {
+  // Try modern Clipboard API first (works on iOS 13.4+)
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(function() {
+      btn.textContent = successLabel;
+      setTimeout(function() { btn.textContent = defaultLabel; }, 2000);
+    }).catch(function() {
+      // Fallback to execCommand
+      _execCommandCopy(text, btn, successLabel, defaultLabel);
+    });
+  } else {
+    _execCommandCopy(text, btn, successLabel, defaultLabel);
+  }
+}
+
+function _execCommandCopy(text, btn, successLabel, defaultLabel) {
+  // Create a temporary textarea off-screen
+  var ta = document.createElement('textarea');
+  ta.value = text;
+  ta.setAttribute('readonly', '');
+  ta.style.cssText = 'position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;pointer-events:none;';
+  document.body.appendChild(ta);
+  // iOS requires selecting inside a contentEditable container
+  ta.contentEditable = 'true';
+  ta.readOnly = false;
+  var range = document.createRange();
+  range.selectNodeContents(ta);
+  var sel = window.getSelection();
+  if (sel) { sel.removeAllRanges(); sel.addRange(range); }
+  ta.setSelectionRange(0, 999999);
+  try { document.execCommand('copy'); btn.textContent = successLabel; } catch(e) { btn.textContent = '⚠ Copy manually'; }
+  document.body.removeChild(ta);
+  setTimeout(function() { btn.textContent = defaultLabel; }, 2000);
+}
+
+function copyMsg() {
+  var text = document.getElementById('msg-content').value;
+  var btn  = document.getElementById('copy-msg-btn');
+  iosClipboardCopy(text, btn, '✓ Copied!', '📋 Copy Message');
+}
+
+function exportCSV() {
+  if (!checkHistory.length) { alert('No history to export yet.'); return; }
+  var rows = [['Check #','DateTime','iPad Label','Shelf','Status']];
+  for (var i = 0; i < checkHistory.length; i++) {
+    var e = checkHistory[i];
+    for (var j = 0; j < e.snapshot.length; j++) {
+      var p = e.snapshot[j];
+      rows.push([checkHistory.length - i, e.ts.toISOString(), p.label, p.shelf, p.status]);
+    }
+  }
+  var csv = '';
+  for (var ri = 0; ri < rows.length; ri++) {
+    var parts = [];
+    for (var ci = 0; ci < rows[ri].length; ci++) {
+      parts.push('"' + String(rows[ri][ci]).replace(/"/g,'""') + '"');
+    }
+    csv += parts.join(',') + '\n';
+  }
+  document.getElementById('export-content').value = csv;
+  document.getElementById('export-modal').classList.add('show');
+}
+
+function closeExport() { document.getElementById('export-modal').classList.remove('show'); }
+
+function copyExport() {
+  var text = document.getElementById('export-content').value;
+  var btn  = document.getElementById('copy-export-btn');
+  iosClipboardCopy(text, btn, '✓ Copied!', 'Copy All');
+}
+
+// ─── Persistence (in-memory, with optional localStorage) ──
+function saveState() {
+  try {
+    localStorage.setItem('ipadcheck_v2_ipads',   JSON.stringify(ipads));
+    localStorage.setItem('ipadcheck_v2_teams',   JSON.stringify(teams));
+    localStorage.setItem('ipadcheck_v2_history', JSON.stringify(checkHistory));
+    localStorage.setItem('ipadcheck_v2_check',   JSON.stringify(checkState));
+  } catch(e) { /* localStorage unavailable in sandboxed context — state lives in memory */ }
+}
+
+function loadState() {
+  try {
+    var si = localStorage.getItem('ipadcheck_v2_ipads');
+    var st = localStorage.getItem('ipadcheck_v2_teams');
+    var sh = localStorage.getItem('ipadcheck_v2_history');
+    var sc = localStorage.getItem('ipadcheck_v2_check');
+    if (si) ipads = JSON.parse(si);
+    if (st) teams = JSON.parse(st);
+    if (sh) {
+      checkHistory = JSON.parse(sh);
+      for (var i = 0; i < checkHistory.length; i++) { checkHistory[i].ts = new Date(checkHistory[i].ts); }
+    }
+    if (sc) checkState = JSON.parse(sc);
+    return !!(si || st || sh);
+  } catch(e) { return false; }
+}
+
+function renderHistory() {
+  var el = document.getElementById('history-list');
+  if (!checkHistory.length) {
+    el.innerHTML = '<div class="empty-state"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><p>No checks saved yet.<br>Complete a check and tap "Save Check".</p></div>';
+    return;
+  }
+  var html = '<div>';
+  for (var i = 0; i < checkHistory.length; i++) {
+    var e = checkHistory[i];
+    var missing = [], shelf = 0, taken = 0;
+    for (var si = 0; si < e.snapshot.length; si++) {
+      if (e.snapshot[si].status === 'missing') missing.push(e.snapshot[si]);
+      if (e.snapshot[si].status === 'on-shelf') shelf++;
+      if (e.snapshot[si].status === 'taken-out') taken++;
+    }
+    var badge = missing.length
+      ? '<span class="hbadge hbadge-miss">⚠ ' + missing.length + ' missing: ' + missing.map(function(m){ return escHtml(m.label); }).join(', ') + '</span>'
+      : '<span class="hbadge hbadge-ok">✓ All accounted for</span>';
+    html += '<div class="history-entry">' +
+      '<div style="flex:1">' +
+        '<div style="font-weight:600;font-size:var(--text-sm);">Check #' + (checkHistory.length - i) + '</div>' +
+        '<div class="history-meta">' + e.ts.toLocaleString() + ' · ' + e.snapshot.length + ' iPads · ' + shelf + ' shelf · ' + taken + ' out</div>' +
+        '<div class="history-badges">' + badge + '</div>' +
+      '</div>' +
+      '<button type="button" class="btn btn-sm btn-secondary" data-delete-history="' + i + '">Delete</button>' +
+    '</div>';
+  }
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+function updateThemeIcon(btn, theme) {
+  btn.innerHTML = theme === 'dark'
+    ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>'
+    : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+}
+
+function switchTab(tab) {
+  ['check','setup','history'].forEach(function(t) {
+    document.getElementById('tab-' + t).classList.toggle('active', t === tab);
+    document.getElementById('btn-tab-' + t).classList.toggle('active', t === tab);
+  });
+}
+
+// ─── Touch/Click helper — prevents double-fire on iOS ─────
+var _lastTouchEnd = 0;
+function addTouchClick(el, fn) {
+  if (!el) return;
+  el.addEventListener('touchend', function(e) {
+    e.preventDefault(); // prevent ghost click
+    _lastTouchEnd = Date.now();
+    fn();
+  }, { passive: false });
+  el.addEventListener('click', function() {
+    if (Date.now() - _lastTouchEnd > 300) fn();
+  });
+}
+
+// ─── Init ─────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+
+  // Tab navigation
+  addTouchClick(document.getElementById('btn-tab-check'),   function() { switchTab('check'); });
+  addTouchClick(document.getElementById('btn-tab-setup'),   function() { switchTab('setup'); });
+  addTouchClick(document.getElementById('btn-tab-history'), function() { switchTab('history'); });
+
+  // Top bar actions
+  addTouchClick(document.getElementById('btn-export'),      function() { exportCSV(); });
+  addTouchClick(document.getElementById('btn-save-check'),  function() { submitCheck(); });
+  addTouchClick(document.getElementById('btn-reset-check'), function() { resetCheck(); });
+
+  // Setup actions
+  addTouchClick(document.getElementById('btn-quick-apply'), function() { quickSetup(); });
+  addTouchClick(document.getElementById('btn-add-ipad'),    function() { addIpad(); });
+  addTouchClick(document.getElementById('btn-clear-all'),   function() { clearAll(); });
+  addTouchClick(document.getElementById('btn-add-team'),    function() { addTeam(); });
+
+  // Message modal buttons
+  addTouchClick(document.getElementById('copy-msg-btn'),    function() { copyMsg(); });
+  addTouchClick(document.getElementById('done-msg-btn'),    function() { closeMsg(); });
+  addTouchClick(document.getElementById('close-msg-btn'),   function() { closeMsg(); });
+
+  // Export modal buttons
+  addTouchClick(document.getElementById('copy-export-btn'),   function() { copyExport(); });
+  addTouchClick(document.getElementById('close-export-btn'),  function() { closeExport(); });
+  addTouchClick(document.getElementById('close-export-btn2'), function() { closeExport(); });
+
+  // Tap outside modals to close
+  document.getElementById('msg-modal').addEventListener('touchend', function(e) {
+    if (e.target === this) { e.preventDefault(); closeMsg(); }
+  }, { passive: false });
+  document.getElementById('msg-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeMsg();
+  });
+  document.getElementById('export-modal').addEventListener('touchend', function(e) {
+    if (e.target === this) { e.preventDefault(); closeExport(); }
+  }, { passive: false });
+  document.getElementById('export-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeExport();
+  });
+
+  // Enter key support
+  document.getElementById('ipad-label').addEventListener('keydown', function(e) { if (e.key === 'Enter') addIpad(); });
+  document.getElementById('quick-count').addEventListener('keydown', function(e) { if (e.key === 'Enter') quickSetup(); });
+  document.getElementById('team-name-input').addEventListener('keydown', function(e) { if (e.key === 'Enter') addTeam(); });
+
+  // Keyboard a11y for check grid
+  document.getElementById('check-grid').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      var tile = e.target.closest('[data-tile-id]');
+      if (tile) { e.preventDefault(); cycleStatus(tile.getAttribute('data-tile-id')); }
+    }
+  });
+
+  // Check grid touch delegation
+  var checkGrid = document.getElementById('check-grid');
+  checkGrid.addEventListener('touchend', function(e) {
+    _lastTouchEnd = Date.now();
+    var assignBtn = e.target.closest('[data-assign-id]');
+    if (assignBtn) { e.preventDefault(); openTeamPicker(assignBtn.getAttribute('data-assign-id'), null); return; }
+    var tile = e.target.closest('[data-tile-id]');
+    if (tile) { e.preventDefault(); cycleStatus(tile.getAttribute('data-tile-id')); }
+  }, { passive: false });
+  checkGrid.addEventListener('click', function(e) {
+    if (Date.now() - _lastTouchEnd > 300) {
+      var assignBtn = e.target.closest('[data-assign-id]');
+      if (assignBtn) { openTeamPicker(assignBtn.getAttribute('data-assign-id'), null); return; }
+      var tile = e.target.closest('[data-tile-id]');
+      if (tile) cycleStatus(tile.getAttribute('data-tile-id'));
+    }
+  });
+
+  // Setup grid touch delegation
+  var setupGrid = document.getElementById('setup-grid');
+  setupGrid.addEventListener('touchend', function(e) {
+    _lastTouchEnd = Date.now();
+    var item = e.target.closest('[data-remove-id]');
+    if (item) { e.preventDefault(); removeIpad(item.getAttribute('data-remove-id')); }
+  }, { passive: false });
+  setupGrid.addEventListener('click', function(e) {
+    if (Date.now() - _lastTouchEnd > 300) {
+      var item = e.target.closest('[data-remove-id]');
+      if (item) removeIpad(item.getAttribute('data-remove-id'));
+    }
+  });
+
+  // Team list remove delegation
+  var teamList = document.getElementById('team-list');
+  teamList.addEventListener('touchend', function(e) {
+    _lastTouchEnd = Date.now();
+    var btn = e.target.closest('[data-remove-team]');
+    if (btn) { e.preventDefault(); removeTeam(btn.getAttribute('data-remove-team')); }
+  }, { passive: false });
+  teamList.addEventListener('click', function(e) {
+    if (Date.now() - _lastTouchEnd > 300) {
+      var btn = e.target.closest('[data-remove-team]');
+      if (btn) removeTeam(btn.getAttribute('data-remove-team'));
+    }
+  });
+
+  // Color swatches delegation
+  var swatchEl = document.getElementById('team-color-swatches');
+  swatchEl.addEventListener('touchend', function(e) {
+    _lastTouchEnd = Date.now();
+    var sw = e.target.closest('[data-swatch]');
+    if (sw) { e.preventDefault(); selectedTeamColor = sw.getAttribute('data-swatch'); renderTeams(); }
+  }, { passive: false });
+  swatchEl.addEventListener('click', function(e) {
+    if (Date.now() - _lastTouchEnd > 300) {
+      var sw = e.target.closest('[data-swatch]');
+      if (sw) { selectedTeamColor = sw.getAttribute('data-swatch'); renderTeams(); }
+    }
+  });
+
+  // History list delete delegation
+  var historyList = document.getElementById('history-list');
+  historyList.addEventListener('touchend', function(e) {
+    _lastTouchEnd = Date.now();
+    var btn = e.target.closest('[data-delete-history]');
+    if (btn) { e.preventDefault(); checkHistory.splice(parseInt(btn.getAttribute('data-delete-history'), 10), 1); renderHistory(); saveState(); }
+  }, { passive: false });
+  historyList.addEventListener('click', function(e) {
+    if (Date.now() - _lastTouchEnd > 300) {
+      var btn = e.target.closest('[data-delete-history]');
+      if (btn) { checkHistory.splice(parseInt(btn.getAttribute('data-delete-history'), 10), 1); renderHistory(); saveState(); }
+    }
+  });
+
+  // Team picker overlay delegation
+  var overlayEl = document.getElementById('team-picker-overlay');
+  var pickerEl  = document.getElementById('team-picker');
+  function handlePickerTap(target) {
+    if (!pickerEl.contains(target)) { closeTeamPicker(); return; }
+    var closeBtn = target.closest('[data-picker-close]');
+    if (closeBtn) { closeTeamPicker(); return; }
+    var teamBtn = target.closest('[data-picker-team]');
+    if (teamBtn && _teamPickerCurrentId) assignTeam(_teamPickerCurrentId, teamBtn.getAttribute('data-picker-team'));
+  }
+  overlayEl.addEventListener('touchend', function(e) {
+    e.preventDefault(); _lastTouchEnd = Date.now(); handlePickerTap(e.target);
+  }, { passive: false });
+  overlayEl.addEventListener('click', function(e) {
+    if (Date.now() - _lastTouchEnd > 300) handlePickerTap(e.target);
+  });
+
+  // Theme toggle
+  var themeBtn = document.querySelector('[data-theme-toggle]');
+  var root = document.documentElement;
+  var currentTheme = (window.matchMedia && window.matchMedia('(prefers-color-scheme:dark)').matches) ? 'dark' : 'light';
+  root.setAttribute('data-theme', currentTheme);
+  updateThemeIcon(themeBtn, currentTheme);
+  addTouchClick(themeBtn, function() {
+    currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', currentTheme);
+    updateThemeIcon(themeBtn, currentTheme);
+  });
+
+  // Load saved state or init defaults
+  var hasSaved = loadState();
+  // Deduplicate ipads by id
+  var seenIds = {}, dedupedIpads = [];
+  for (var di = 0; di < ipads.length; di++) {
+    if (!seenIds[ipads[di].id]) { seenIds[ipads[di].id] = true; dedupedIpads.push(ipads[di]); }
+  }
+  ipads = dedupedIpads;
+  if (!hasSaved || !ipads.length) {
+    ipads = [];
+    var totalShelves = 5, perShelf = 4;
+    for (var i = 1; i <= totalShelves * perShelf; i++) {
+      ipads.push({ id: 'ipad-' + i, label: 'iPad ' + padNum(i), shelf: Math.ceil(i / perShelf) });
+    }
+  }
+  renderSetup(); renderTeams(); renderCheckGrid(); updateSummary(); renderHistory();
+});
+</script>
+</body>
+</html>
